@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Service Turn Order</title>
+  <link rel="stylesheet" href="src/style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="src/script.js" defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Customer Service Turn Order</h1>
+      <button class="settings-button"><i class="fas fa-cog"></i></button>
+    </div>
+    <div id="turn-order">
+      <h2>Turn Order <button id="add-rep-button" class="circle-button">+</button></h2>
+      <ul id="representatives-list"></ul>
+    </div>
+    <div id="currently-working">
+      <h2>Currently Working</h2>
+      <ul id="working-list"></ul>
+    </div>
+    <div id="stats">
+      <h2>Customer Count</h2>
+      <ul id="customer-count"></ul>
+    </div>
+  </div>
+
+  <!-- Pop-up Overlay and Menu -->
+  <div id="popup-overlay">
+    <div id="popup-menu">
+      <h3>Add Representative</h3>
+      <input type="text" id="rep-name" placeholder="Enter representative name">
+      <div class="popup-buttons">
+        <button id="confirm-add">Confirm</button>
+        <button id="cancel-add">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Pop-up Overlay and Menu -->
+  <div id="settings-popup-overlay">
+    <div id="settings-popup-menu">
+      <h3>Settings</h3>
+      <button id="end-day">End Day</button>
+      <div class="settings-popup-buttons">
+        <button id="confirm-settings">Confirm</button>
+        <button id="cancel-settings">Cancel</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

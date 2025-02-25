@@ -216,6 +216,11 @@ $(document).ready(function () {
     });
   });
 
+  // Reload the page every 60 seconds
+  setInterval(function () {
+    window.location.reload();
+  }, 60000);
+
   // Initial fetch
   fetchData();
 });

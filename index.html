@@ -52,5 +52,15 @@
       </div>
     </div>
   </div>
+
+  <div id="load-time" style="text-align: center; margin-top: 20px;"></div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const loadTimeElement = document.getElementById("load-time");
+      const now = new Date();
+      loadTimeElement.textContent = `Page loaded on: ${now.toLocaleString()}`;
+    });
+  </script>
 </body>
 </html>

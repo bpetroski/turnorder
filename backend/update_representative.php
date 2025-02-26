@@ -12,8 +12,11 @@ $updatedRepresentatives = $data["updatedRepresentatives"] ?? [];
 $updatedCustomerCount = $data["updatedCustomerCount"] ?? [];
 $currentlyWorking = $data["currentlyWorking"] ?? [];
 
-if (empty($updatedRepresentatives) || empty($updatedCustomerCount)) {
-  echo json_encode(["success" => false, "message" => "Invalid data"]);
+// Debugging: Log the received data
+error_log("Received data: " . print_r($data, true));
+
+if (empty($updatedRepresentatives) && empty($currentlyWorking)) {
+  echo json_encode(["success" => false, "message" => "Invalid data: Representatives and Currently Working are both empty"]);
   exit;
 }
 

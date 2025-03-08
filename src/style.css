@@ -164,20 +164,39 @@ input {
 /* Settings Pop-up Menu */
 #settings-popup-menu {
     background-color: #fff;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    width: 350px;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 400px;
     max-width: 90%;
     text-align: left;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 #settings-popup-menu h3 {
-    margin: 0 0 15px;
-    font-size: 20px;
+    margin: 0 0 20px;
+    font-size: 24px;
     color: #333;
     border-bottom: 2px solid #6138f5;
     padding-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+#settings-popup-menu h3 i {
+    margin-right: 10px;
+    color: #6138f5;
 }
 
 .settings-content {
@@ -188,35 +207,45 @@ input {
 .settings-menu-button {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     width: 100%;
-    padding: 12px;
-    margin: 8px 0;
-    background-color: #6138f5;
+    padding: 15px;
+    margin: 10px 0;
+    background: linear-gradient(135deg, #6138f5, #4a2bbf);
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 10px;
     font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.settings-menu-button i {
-    margin-left: 8px;
-    transform: scaleX(-1); /* Flip the icon horizontally */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .settings-menu-button:hover {
-    background-color: #4a2bbf;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(97, 56, 245, 0.3);
+}
+
+.settings-menu-button i {
+    margin-left: 10px;
 }
 
 /* Edit Turn Order Submenu */
 #edit-turn-order-menu {
-    margin-top: 10px;
-    padding: 10px;
-    background-color: #f9f9f9;
-    border-radius: 6px;
+    margin-top: 15px;
+    padding: 15px;
+    background: #f9f9f9;
+    border-radius: 10px;
     border: 1px solid #ddd;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 #edit-representatives-list {
@@ -225,107 +254,10 @@ input {
 }
 
 #edit-representatives-list li {
-    padding: 10px;
+    padding: 12px;
     background: #fff;
-    margin-bottom: 5px;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    border: 1px solid #ddd;
-}
-
-#edit-representatives-list input[type="checkbox"] {
-    margin-right: 10px;
-}
-
-/* Edit Buttons */
-.edit-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-}
-
-.settings-action-button {
-    flex: 1;
-    margin: 0 5px;
-    padding: 10px;
-    background-color: #6138f5;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.settings-action-button i {
-    pointer-events: none; /* Ensure the icon does not interfere with button clicks */
-}
-
-.settings-action-button:hover {
-    background-color: #4a2bbf;
-}
-
-/* Confirm and Cancel Buttons */
-.settings-popup-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
-
-.settings-confirm-button {
-    flex: 1;
-    margin-right: 5px;
-    padding: 12px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.settings-confirm-button:hover {
-    background-color: #218838;
-}
-
-.settings-cancel-button {
-    flex: 1;
-    margin-left: 5px;
-    padding: 12px;
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.settings-cancel-button:hover {
-    background-color: #c82333;
-}
-
-/* Edit Turn Order Menu */
-#edit-turn-order-menu {
-    margin-top: 10px;
-    padding: 10px;
-    background-color: #f9f9f9;
+    margin-bottom: 8px;
     border-radius: 8px;
-    border: 1px solid #ddd;
-}
-
-#edit-representatives-list {
-    list-style-type: none;
-    padding: 0;
-}
-
-#edit-representatives-list li {
-    padding: 10px;
-    background: #fff;
-    margin-bottom: 5px;
-    border-radius: 6px;
     display: flex;
     align-items: center;
     border: 1px solid #ddd;
@@ -374,7 +306,7 @@ input {
 .edit-buttons {
     display: flex;
     justify-content: space-between;
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
 .edit-buttons button {
@@ -391,4 +323,83 @@ input {
 
 .edit-buttons button:hover {
     opacity: 0.8;
+}
+
+.settings-action-button {
+    flex: 1;
+    margin: 0 5px;
+    padding: 12px;
+    background: linear-gradient(135deg, #6138f5, #4a2bbf);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.settings-action-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(97, 56, 245, 0.3);
+}
+
+/* Lunch Section */
+#lunch-section {
+    margin-top: 20px;
+}
+
+#lunch-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.lunch-rep-name {
+    padding: 12px;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    flex: 1;
+    margin-right: 10px;
+    font-weight: bold;
+    color: #6138f5;
+    display: flex;
+    align-items: center;
+}
+
+.lunch-rep-name i {
+    margin-right: 8px;
+    color: #6138f5;
+}
+
+/* End Lunch Button */
+#end-lunch {
+    padding: 8px 12px; /* Smaller padding */
+    font-size: 14px; /* Smaller font size */
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#end-lunch:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
+}
+
+/* Confirm and Cancel Buttons */
+.settings-popup-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.settings-confirm-button {
+    background: linear-gradient(135deg, #28a745, #218838);
+}
+
+.settings-cancel-button {
+    background: linear-gradient(135deg, #dc3545, #c82333);
 }

@@ -46,24 +46,40 @@
   <!-- Settings Pop-up Overlay and Menu -->
   <div id="settings-popup-overlay">
     <div id="settings-popup-menu">
-      <h3>Settings</h3>
+      <h3><i class="fas fa-cog"></i>Settings</h3>
       <div class="settings-content">
-        <button id="edit-turn-order" class="settings-menu-button">Edit Turn Order</button>
+        <button id="edit-turn-order" class="settings-menu-button">
+          <span>Edit Turn Order</span>
+          <i class="fas fa-chevron-down"></i>
+        </button>
         <div id="edit-turn-order-menu" class="settings-submenu">
-          <ul id="edit-representatives-list">
-            <li>
-              <input type="checkbox" data-rep="Rep Name">
-              <span>Rep Name</span>
-            </li>
-            <!-- More list items will be dynamically added here -->
-          </ul>
+          <ul id="edit-representatives-list"></ul>
           <div class="edit-buttons">
             <button id="remove-reps" class="settings-action-button">Remove</button>
             <button id="lunch-button" class="settings-action-button">Lunch</button>
             <button id="minimize-turn-order" class="settings-action-button"><i class="fas fa-arrow-up"></i></button>
           </div>
         </div>
-        <button id="end-day" class="settings-menu-button">End Day <i class="fas fa-moon"></i></button>
+        <button id="view-customer-count" class="settings-menu-button">
+          <span>Customer Count</span>
+          <i class="fas fa-users"></i>
+        </button>
+        <div id="customer-count-menu" class="settings-submenu">
+          <ul id="customer-count"></ul>
+        </div>
+        <div id="lunch-section">
+          <h3><i class="fas fa-utensils"></i>Lunch</h3>
+          <div id="lunch-row">
+            <div id="lunch-rep" class="lunch-rep-name">
+              <i class="fas fa-user"></i> <span>None</span>
+            </div>
+            <button id="end-lunch">End Lunch</button>
+          </div>
+        </div>
+        <button id="end-day" class="settings-menu-button">
+          <span>End Day</span>
+          <i class="fas fa-moon"></i>
+        </button>
       </div>
       <div class="settings-popup-buttons">
         <button id="confirm-settings" class="settings-confirm-button">Confirm</button>

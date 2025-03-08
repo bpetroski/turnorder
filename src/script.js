@@ -3,6 +3,8 @@ $(document).ready(function () {
   let customerCount = {};
   let currentlyWorking = [];
   let tempRepresentatives = [];
+  let lunchRep = null;
+  let selectedRepForLunch = null;
 
   // Fetch data from the backend
   function fetchData() {
@@ -12,10 +14,12 @@ $(document).ready(function () {
       representatives = data.representatives;
       customerCount = data.customerCount;
       currentlyWorking = data.currentlyWorking;
+      lunchRep = data.lunchRep || null;
       tempRepresentatives = [...representatives]; // Create a copy for temporary changes
       renderList();
       renderCustomerCount();
       renderCurrentlyWorking();
+      renderLunchRep();
     }).fail(function (jqXHR, textStatus, errorThrown) {
       console.error("GET request failed:", textStatus, errorThrown); // Debugging
     });
@@ -24,7 +28,7 @@ $(document).ready(function () {
   // Function to render the representatives list
   function renderList() {
     $("#representatives-list").empty();
-    tempRepresentatives.forEach((rep, index) => {
+    representatives.forEach((rep, index) => {
       let listItem = $(`
         <li>
           <span>${rep}</span>
@@ -55,6 +59,17 @@ $(document).ready(function () {
       `);
       $("#working-list").append(workingItem);
     });
+  }
+
+  // Function to render the lunch representative
+  function renderLunchRep() {
+    if (lunchRep) {
+      $("#lunch-rep").text(lunchRep).show();
+      $("#end-lunch").show();
+    } else {
+      $("#lunch-rep").hide();
+      $("#end-lunch").hide();
+    }
   }
 
   // Open the pop-up menu
@@ -89,6 +104,7 @@ $(document).ready(function () {
         console.error("POST request failed:", textStatus, errorThrown); // Debugging
       });
     } else {
+      alert("Invalid name or representative already exists.");
       console.log("Invalid name or representative already exists:", repName); // Debugging
     }
   });
@@ -111,31 +127,18 @@ $(document).ready(function () {
     console.log("Representatives after splice:", representatives);
     console.log("Representative moved to Currently Working:", rep); // Debugging
 
-    $(this).closest("li").remove();
-
-    // Add the representative to the "Currently Working" section
-    let workingItem = $(`
-      <li>
-        <span>${rep}</span>
-        <button class="finish-customer" data-rep="${rep}">Finish Customer</button>
-      </li>
-    `);
-    $("#working-list").append(workingItem);
-
     renderList(); // Re-render the turn order
+    renderCurrentlyWorking(); // Re-render the currently working list
 
     // Update the backend
     $.ajax({
       url: "backend/update_representative.php", // Ensure this path is correct
       type: "POST",
       contentType: "application/json",
-      data: JSON.stringify({ updatedRepresentatives: representatives, updatedCustomerCount: customerCount, currentlyWorking: currentlyWorking }),
+      data: JSON.stringify({ updatedRepresentatives: representatives, updatedCustomerCount: customerCount, currentlyWorking: currentlyWorking, lunchRep: lunchRep }),
       success: function (data) {
         console.log("Update response:", data); // Debugging
-        if (data.success) {
-          renderList(); // Re-render the turn order
-        } else {
-          console.error("Failed to update representatives:", data.message);
+        if (!data.success) {
           alert("Failed to update representatives: " + data.message);
         }
       },
@@ -152,29 +155,27 @@ $(document).ready(function () {
     representatives.push(rep); // Add the representative back to the bottom
     customerCount[rep] = (customerCount[rep] || 0) + 1; // Increment their customer count
     currentlyWorking = currentlyWorking.filter(r => r !== rep); // Remove from currently working
-    $(this).closest("li").remove(); // Remove from "Currently Working"
 
     renderList(); // Re-render the turn order
+    renderCustomerCount(); // Re-render the customer count
+    renderCurrentlyWorking(); // Re-render the currently working list
 
     // Update the backend
     $.ajax({
       url: "backend/update_representative.php", // Ensure this path is correct
       type: "POST",
       contentType: "application/json",
-      data: JSON.stringify({ updatedRepresentatives: representatives, updatedCustomerCount: customerCount, currentlyWorking: currentlyWorking }),
+      data: JSON.stringify({ updatedRepresentatives: representatives, updatedCustomerCount: customerCount, currentlyWorking: currentlyWorking, lunchRep: lunchRep }),
       success: function (data) {
         console.log("Update response:", data); // Debugging
-        if (data.success) {
-          renderList(); // Re-render the turn order
-          renderCustomerCount(); // Re-render the customer count
-          renderCurrentlyWorking(); // Re-render the currently working list
-        } else {
-    //      alert("Failed to update representatives.");
+        if (!data.success) {
+          alert("Failed to update representatives: " + data.message);
         }
       },
       dataType: "json",
     }).fail(function (jqXHR, textStatus, errorThrown) {
-      console.error("PUT request failed:", textStatus, errorThrown); // Debugging
+      console.error("POST request failed:", textStatus, errorThrown); // Debugging
+      alert("Failed to update representatives: " + textStatus + " - " + errorThrown);
     });
   });
 
@@ -232,6 +233,11 @@ $(document).ready(function () {
     renderEditList();
   });
 
+  // Open the customer count menu
+  $("#view-customer-count").click(function () {
+    $("#customer-count-menu").slideToggle();
+  });
+
   // Function to render the edit representatives list
   function renderEditList() {
     $("#edit-representatives-list").empty();
@@ -268,7 +274,6 @@ $(document).ready(function () {
 
     tempRepresentatives = tempRepresentatives.filter(rep => !repsToRemove.includes(rep));
     renderEditList();
-    renderList();
   });
 
   // Minimize the turn order list
@@ -283,7 +288,7 @@ $(document).ready(function () {
       url: "backend/update_representative.php",
       type: "POST",
       contentType: "application/json",
-      data: JSON.stringify({ updatedRepresentatives: representatives, updatedCustomerCount: customerCount, currentlyWorking: currentlyWorking }),
+      data: JSON.stringify({ updatedRepresentatives: representatives, updatedCustomerCount: customerCount, currentlyWorking: currentlyWorking, lunchRep: lunchRep }),
       success: function (data) {
         console.log("Update response:", data);
         if (!data.success) {
@@ -296,6 +301,52 @@ $(document).ready(function () {
       alert("Failed to update representatives: " + textStatus + " - " + errorThrown);
     });
   }
+
+  // Send representative to lunch
+  $('#lunch-button').click(function() {
+    if (lunchRep) {
+      alert('There is already a representative on lunch.');
+      return;
+    }
+    const selectedReps = $('#edit-representatives-list input:checked');
+    if (selectedReps.length === 1) {
+      selectedRepForLunch = selectedReps.data('rep');
+      $('#settings-popup-overlay').hide();
+      $('#confirm-lunch-popup-overlay').css("display", "flex").hide().fadeIn();
+    } else {
+      alert('Please select exactly one representative to send to lunch.');
+    }
+  });
+
+  // Confirm sending representative to lunch
+  $('#confirm-lunch').click(function() {
+    if (selectedRepForLunch) {
+      lunchRep = selectedRepForLunch;
+      $('#lunch-rep').text(lunchRep).show();
+      representatives = representatives.filter(rep => rep !== lunchRep);
+      $('#confirm-lunch-popup-overlay').fadeOut();
+      updateBackend();
+      location.reload(); // Force a page refresh
+    }
+  });
+
+  // Cancel sending representative to lunch
+  $('#cancel-lunch').click(function() {
+    selectedRepForLunch = null;
+    $('#confirm-lunch-popup-overlay').fadeOut();
+  });
+
+  // End lunch
+  $('#end-lunch').click(function() {
+    if (lunchRep) {
+      representatives.push(lunchRep);
+      lunchRep = null;
+      renderList();
+      renderLunchRep();
+      updateBackend();
+      location.reload(); // Force a page refresh
+    }
+  });
 
   // Reload the page every 60 seconds
   setInterval(function () {

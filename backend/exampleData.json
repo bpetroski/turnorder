@@ -1,0 +1,20 @@
+{
+    "representatives": [
+        "Emma",
+        "Brenden"
+    ],
+    "customerCount": {
+        "Brenden": 10,
+        "Christopher": 8,
+        "Nolan": 9,
+        "Ben": 7,
+        "Ryan": 9,
+        "Emma": 7
+    },
+    "currentlyWorking": [
+        "Ryan",
+        "Nolan",
+        "Christopher"
+    ],
+    "lunchRep": "Ben"
+}

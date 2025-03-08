@@ -347,6 +347,7 @@ $(document).ready(function () {
       renderLunchRep();
       updateBackend();
       $("#settings-popup-overlay").fadeOut(); // Close the settings menu
+      location.reload(); // Force a page refresh
     }
   });
 

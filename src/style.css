@@ -403,3 +403,27 @@ input {
 .settings-cancel-button {
     background: linear-gradient(135deg, #dc3545, #c82333);
 }
+
+/* Confirm Lunch Pop-up Overlay */
+#confirm-lunch-popup-overlay {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    z-index: 1000; /* Ensure it's on top of other elements */
+}
+
+/* Confirm Lunch Pop-up Menu */
+#confirm-lunch-popup-menu {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+}

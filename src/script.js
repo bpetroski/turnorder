@@ -64,10 +64,10 @@ $(document).ready(function () {
   // Function to render the lunch representative
   function renderLunchRep() {
     if (lunchRep) {
-      $("#lunch-rep").text(lunchRep).show();
+      $("#lunch-rep span").text(lunchRep).show();
       $("#end-lunch").show();
     } else {
-      $("#lunch-rep").hide();
+      $("#lunch-rep span").text("None").show();
       $("#end-lunch").hide();
     }
   }
@@ -322,10 +322,12 @@ $(document).ready(function () {
   $('#confirm-lunch').click(function() {
     if (selectedRepForLunch) {
       lunchRep = selectedRepForLunch;
-      $('#lunch-rep').text(lunchRep).show();
+      $('#lunch-rep span').text(lunchRep).show();
       representatives = representatives.filter(rep => rep !== lunchRep);
       $('#confirm-lunch-popup-overlay').fadeOut();
       updateBackend();
+      renderList(); // Re-render the turn order
+      renderLunchRep(); // Re-render the lunch representative
       location.reload(); // Force a page refresh
     }
   });
@@ -344,7 +346,7 @@ $(document).ready(function () {
       renderList();
       renderLunchRep();
       updateBackend();
-      location.reload(); // Force a page refresh
+      $("#settings-popup-overlay").fadeOut(); // Close the settings menu
     }
   });
 

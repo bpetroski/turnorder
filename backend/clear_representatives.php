@@ -8,7 +8,8 @@ header("Access-Control-Allow-Headers: Content-Type"); // Allow Content-Type head
 $data = [
     "representatives" => [],
     "customerCount" => [],
-    "currentlyWorking" => []
+    "currentlyWorking" => [],
+    "lunchRep" => null
 ];
 
 // Save the reset data

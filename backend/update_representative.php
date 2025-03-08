@@ -11,6 +11,7 @@ $data = json_decode($input, true);
 $updatedRepresentatives = $data["updatedRepresentatives"] ?? [];
 $updatedCustomerCount = $data["updatedCustomerCount"] ?? [];
 $currentlyWorking = $data["currentlyWorking"] ?? [];
+$lunchRep = $data["lunchRep"] ?? null;
 
 // Debugging: Log the received data
 error_log("Received data: " . print_r($data, true));
@@ -25,7 +26,8 @@ $filePath = __DIR__ . "/data.json"; // Ensure the file path is correct
 $fileData = json_encode([
   "representatives" => $updatedRepresentatives,
   "customerCount" => $updatedCustomerCount,
-  "currentlyWorking" => $currentlyWorking
+  "currentlyWorking" => $currentlyWorking,
+  "lunchRep" => $lunchRep
 ], JSON_PRETTY_PRINT);
 
 if (file_put_contents($filePath, $fileData) === false) {

@@ -177,6 +177,8 @@ $(document).ready(function () {
   // Open the settings pop-up menu
   $(".settings-button").click(function () {
     $("#settings-popup-overlay").css("display", "flex").hide().fadeIn();
+    $("#edit-turn-order-menu").hide(); // Ensure the edit turn order menu is closed
+    $("#edit-turn-order").text("Edit Turn Order"); // Reset the button text
   });
 
   // Confirm settings
@@ -215,6 +217,84 @@ $(document).ready(function () {
       console.error("POST request failed:", textStatus, errorThrown); // Debugging
     });
   });
+
+  // Open the edit turn order menu
+  $("#edit-turn-order").click(function () {
+    $("#edit-turn-order-menu").slideToggle();
+    renderEditList();
+  });
+
+  // Function to render the edit representatives list
+  function renderEditList() {
+    $("#edit-representatives-list").empty();
+    representatives.forEach((rep) => {
+      let listItem = $(`
+        <li>
+          <input type="checkbox" data-rep="${rep}">
+          <span>${rep}</span>
+        </li>
+      `);
+      $("#edit-representatives-list").append(listItem);
+    });
+
+    // Enable drag-and-drop
+    $("#edit-representatives-list").sortable({
+      update: function () {
+        // Update the representatives array based on the new order
+        representatives = [];
+        $("#edit-representatives-list li").each(function () {
+          let rep = $(this).find("span").text();
+          representatives.push(rep);
+        });
+      }
+    });
+  }
+
+  // Remove selected representatives
+  $("#remove-reps").click(function () {
+    let repsToRemove = [];
+    $("#edit-representatives-list input[type='checkbox']:checked").each(function () {
+      let rep = $(this).data("rep");
+      repsToRemove.push(rep);
+    });
+
+    representatives = representatives.filter(rep => !repsToRemove.includes(rep));
+    renderEditList();
+    renderList();
+    updateBackend();
+  });
+
+  // Update the turn order
+  $("#update-turn-order").click(function () {
+    updateBackend();
+    alert("Turn order updated successfully.");
+  });
+
+  // Minimize the turn order list
+  $("#minimize-turn-order").click(function () {
+    $("#edit-turn-order-menu").slideToggle();
+    $("#edit-turn-order").text("Edit Turn Order");
+  });
+
+  // Function to update the backend
+  function updateBackend() {
+    $.ajax({
+      url: "backend/update_representative.php",
+      type: "POST",
+      contentType: "application/json",
+      data: JSON.stringify({ updatedRepresentatives: representatives, updatedCustomerCount: customerCount, currentlyWorking: currentlyWorking }),
+      success: function (data) {
+        console.log("Update response:", data);
+        if (!data.success) {
+          alert("Failed to update representatives: " + data.message);
+        }
+      },
+      dataType: "json",
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+      console.error("POST request failed:", textStatus, errorThrown);
+      alert("Failed to update representatives: " + textStatus + " - " + errorThrown);
+    });
+  }
 
   // Reload the page every 60 seconds
   setInterval(function () {

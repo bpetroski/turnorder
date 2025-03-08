@@ -8,6 +8,8 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="src/script.js" defer></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 </head>
 <body>
   <div class="container">
@@ -45,15 +47,27 @@
   <div id="settings-popup-overlay">
     <div id="settings-popup-menu">
       <h3>Settings</h3>
-      <button id="end-day">End Day</button>
+      <div class="settings-content">
+        <button id="edit-turn-order" class="settings-menu-button">Edit Turn Order</button>
+        <div id="edit-turn-order-menu" class="settings-submenu">
+          <ul id="edit-representatives-list"></ul>
+          <div class="edit-buttons">
+            <button id="remove-reps" class="settings-action-button">Remove</button>
+            <button id="update-turn-order" class="settings-action-button">Update</button>
+            <button id="minimize-turn-order" class="settings-action-button">^</button>
+          </div>
+        </div>
+        <button id="end-day" class="settings-menu-button">End Day</button>
+      </div>
       <div class="settings-popup-buttons">
-        <button id="confirm-settings">Confirm</button>
-        <button id="cancel-settings">Cancel</button>
+        <button id="confirm-settings" class="settings-confirm-button">Confirm</button>
+        <button id="cancel-settings" class="settings-cancel-button">Cancel</button>
       </div>
     </div>
   </div>
 
   <div id="load-time" style="text-align: center; margin-top: 20px;"></div>
+  <div id="version" style="text-align: center; margin-top: 5px;">Version: 1.2.0</div>
 
   <script>
     document.addEventListener("DOMContentLoaded", function() {

@@ -135,12 +135,14 @@ $(document).ready(function () {
         if (data.success) {
           renderList(); // Re-render the turn order
         } else {
- //         alert("Failed to update representatives.");
+          console.error("Failed to update representatives:", data.message);
+          alert("Failed to update representatives: " + data.message);
         }
       },
       dataType: "json",
     }).fail(function (jqXHR, textStatus, errorThrown) {
-      console.error("PUT request failed:", textStatus, errorThrown); // Debugging
+      console.error("POST request failed:", textStatus, errorThrown); // Debugging
+      alert("Failed to update representatives: " + textStatus + " - " + errorThrown);
     });
   });
 

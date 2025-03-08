@@ -2,6 +2,7 @@ $(document).ready(function () {
   let representatives = [];
   let customerCount = {};
   let currentlyWorking = [];
+  let tempRepresentatives = [];
 
   // Fetch data from the backend
   function fetchData() {
@@ -11,6 +12,7 @@ $(document).ready(function () {
       representatives = data.representatives;
       customerCount = data.customerCount;
       currentlyWorking = data.currentlyWorking;
+      tempRepresentatives = [...representatives]; // Create a copy for temporary changes
       renderList();
       renderCustomerCount();
       renderCurrentlyWorking();
@@ -22,7 +24,7 @@ $(document).ready(function () {
   // Function to render the representatives list
   function renderList() {
     $("#representatives-list").empty();
-    representatives.forEach((rep, index) => {
+    tempRepresentatives.forEach((rep, index) => {
       let listItem = $(`
         <li>
           <span>${rep}</span>
@@ -181,14 +183,18 @@ $(document).ready(function () {
     $("#edit-turn-order").text("Edit Turn Order"); // Reset the button text
   });
 
-  // Confirm settings
+  // Confirm settings (update the turn order)
   $("#confirm-settings").click(function () {
-    // Add your settings confirmation logic here
+    representatives = [...tempRepresentatives]; // Apply the temporary changes
+    updateBackend();
     $("#settings-popup-overlay").fadeOut();
+    location.reload(); // Force a page refresh
   });
 
   // Cancel settings
   $("#cancel-settings").click(function () {
+    tempRepresentatives = [...representatives]; // Revert temporary changes
+    renderList();
     $("#settings-popup-overlay").fadeOut();
   });
 
@@ -227,7 +233,7 @@ $(document).ready(function () {
   // Function to render the edit representatives list
   function renderEditList() {
     $("#edit-representatives-list").empty();
-    representatives.forEach((rep) => {
+    tempRepresentatives.forEach((rep) => {
       let listItem = $(`
         <li>
           <input type="checkbox" data-rep="${rep}">
@@ -240,11 +246,11 @@ $(document).ready(function () {
     // Enable drag-and-drop
     $("#edit-representatives-list").sortable({
       update: function () {
-        // Update the representatives array based on the new order
-        representatives = [];
+        // Update the temporary representatives array based on the new order
+        tempRepresentatives = [];
         $("#edit-representatives-list li").each(function () {
           let rep = $(this).find("span").text();
-          representatives.push(rep);
+          tempRepresentatives.push(rep);
         });
       }
     });
@@ -258,16 +264,9 @@ $(document).ready(function () {
       repsToRemove.push(rep);
     });
 
-    representatives = representatives.filter(rep => !repsToRemove.includes(rep));
+    tempRepresentatives = tempRepresentatives.filter(rep => !repsToRemove.includes(rep));
     renderEditList();
     renderList();
-    updateBackend();
-  });
-
-  // Update the turn order
-  $("#update-turn-order").click(function () {
-    updateBackend();
-    alert("Turn order updated successfully.");
   });
 
   // Minimize the turn order list
@@ -299,7 +298,7 @@ $(document).ready(function () {
   // Reload the page every 60 seconds
   setInterval(function () {
     window.location.reload();
-  }, 60000);
+  }, (60000*2)); // 2 minutes
 
   // Initial fetch
   fetchData();

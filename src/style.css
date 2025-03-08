@@ -186,7 +186,9 @@ input {
 
 /* Settings Menu Buttons */
 .settings-menu-button {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     padding: 12px;
     margin: 8px 0;
@@ -197,6 +199,11 @@ input {
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+}
+
+.settings-menu-button i {
+    margin-left: 8px;
+    transform: scaleX(-1); /* Flip the icon horizontally */
 }
 
 .settings-menu-button:hover {
@@ -249,6 +256,10 @@ input {
     font-size: 14px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+}
+
+.settings-action-button i {
+    pointer-events: none; /* Ensure the icon does not interfere with button clicks */
 }
 
 .settings-action-button:hover {
@@ -314,14 +325,50 @@ input {
     padding: 10px;
     background: #fff;
     margin-bottom: 5px;
-    border-radius: 4px;
+    border-radius: 6px;
     display: flex;
     align-items: center;
     border: 1px solid #ddd;
+    transition: background-color 0.3s ease;
 }
 
+#edit-representatives-list li:hover {
+    background-color: #f1f1f1;
+}
+
+/* Custom Checkbox Styling */
 #edit-representatives-list input[type="checkbox"] {
+    appearance: none; /* Remove default checkbox styling */
+    width: 18px;
+    height: 18px;
+    border: 2px solid #6138f5;
+    border-radius: 4px;
     margin-right: 10px;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+#edit-representatives-list input[type="checkbox"]:checked {
+    background-color: #6138f5;
+    border-color: #6138f5;
+}
+
+#edit-representatives-list input[type="checkbox"]:checked::after {
+    content: "✔";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12px;
+    color: white;
+}
+
+/* Representative Name Styling */
+#edit-representatives-list li span {
+    font-size: 16px;
+    color: #333;
+    margin-left: 10px;
 }
 
 .edit-buttons {

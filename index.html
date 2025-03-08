@@ -50,14 +50,20 @@
       <div class="settings-content">
         <button id="edit-turn-order" class="settings-menu-button">Edit Turn Order</button>
         <div id="edit-turn-order-menu" class="settings-submenu">
-          <ul id="edit-representatives-list"></ul>
+          <ul id="edit-representatives-list">
+            <li>
+              <input type="checkbox" data-rep="Rep Name">
+              <span>Rep Name</span>
+            </li>
+            <!-- More list items will be dynamically added here -->
+          </ul>
           <div class="edit-buttons">
             <button id="remove-reps" class="settings-action-button">Remove</button>
-            <button id="update-turn-order" class="settings-action-button">Update</button>
-            <button id="minimize-turn-order" class="settings-action-button">^</button>
+            <button id="lunch-button" class="settings-action-button">Lunch</button>
+            <button id="minimize-turn-order" class="settings-action-button"><i class="fas fa-arrow-up"></i></button>
           </div>
         </div>
-        <button id="end-day" class="settings-menu-button">End Day</button>
+        <button id="end-day" class="settings-menu-button">End Day <i class="fas fa-moon"></i></button>
       </div>
       <div class="settings-popup-buttons">
         <button id="confirm-settings" class="settings-confirm-button">Confirm</button>

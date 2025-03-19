@@ -229,13 +229,17 @@ $(document).ready(function () {
 
   // Open the edit turn order menu
   $("#edit-turn-order").click(function () {
-    $("#edit-turn-order-menu").slideToggle();
-    renderEditList();
-  });
+    $.get("backend/get_representatives.php", function (data) {
+      // Update the representatives list with the latest data from the backend
+      representatives = data.representatives;
+      tempRepresentatives = [...representatives]; // Sync tempRepresentatives with the latest data
+      renderEditList(); // Render the updated list
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+      console.error("Failed to fetch representatives for editing:", textStatus, errorThrown);
+      alert("Failed to fetch the latest representatives list. Please try again.");
+    });
 
-  // Open the customer count menu
-  $("#view-customer-count").click(function () {
-    $("#customer-count-menu").slideToggle();
+    $("#edit-turn-order-menu").slideToggle();
   });
 
   // Function to render the edit representatives list
@@ -349,6 +353,11 @@ $(document).ready(function () {
       $("#settings-popup-overlay").fadeOut(); // Close the settings menu
       location.reload(); // Force a page refresh
     }
+  });
+
+  // Open the customer count menu
+  $("#view-customer-count").click(function () {
+    $("#customer-count-menu").slideToggle();
   });
 
   // Reload the page every 60 seconds
